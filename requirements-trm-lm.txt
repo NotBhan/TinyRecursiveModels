@@ -1,0 +1,16 @@
+# Supplemental dependencies for the trm_lm research variant.
+# PyTorch is intentionally NOT pinned here: this variant uses the system ROCm
+# PyTorch build (torch 2.14.0 / HIP 7.2 on the audited machine).  Create an
+# isolated environment that inherits it, for example:
+#
+#   uv venv --python /usr/bin/python3 --system-site-packages .venv-trm-lm
+#   uv pip install --python .venv-trm-lm/bin/python -r requirements-trm-lm.txt
+#
+# The reference Samsung TRM dependencies (Hydra, adam-atan2, wandb, numba,
+# triton, ...) are deliberately not required by this entrypoint.
+
+pyarrow
+tokenizers
+einops
+pytest
+PyYAML

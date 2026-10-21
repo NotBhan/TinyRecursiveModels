@@ -1,3 +1,7 @@
+> **Fork notice:** This checkout is maintained at
+> https://github.com/NotBhan/TinyRecursiveModels. The original Samsung
+> reference implementation and its README are preserved below.
+
 **Update: Due to many automatically generated and irrelevant issues submitted to this repo (that have been deleted now) and our limited capacity to properly maintain this repo, we have to temporaliy archive (make read-only) this and several other repos.**
 
 

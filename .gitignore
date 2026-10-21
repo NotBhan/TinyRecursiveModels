@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.venv-*/
+*.egg-info/
+
+# Generated datasets and checkpoints
+data/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# Local pilot artifacts (2.0 GB of checkpoints, metrics, logs)
+experiments/
+
+# OS / editor
+.DS_Store

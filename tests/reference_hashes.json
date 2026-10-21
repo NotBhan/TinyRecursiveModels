@@ -1,0 +1,18 @@
+{
+  "pretrain.py": "5184b37a979e16bc65f60016eb2b084f71d966673451176a9155db866955244d",
+  "puzzle_dataset.py": "2da1c939f424abcf06aa11a989373adf01529755ce63a5bb31402173704341ca",
+  "models/layers.py": "519d38a4668c343868bf31a5853cab7f455f9dcac0cbcc36e02f95dce9fb01e7",
+  "models/losses.py": "1fa6d4af0f4554a3fb2009d1a11d80c50abab9710453995785093b5c355596c3",
+  "models/common.py": "fa749ad9b68ac0852f9cda157baa3a9c2ff8abaee973751b32b7cd010a4cf859",
+  "models/recursive_reasoning/trm.py": "3454818b64a1abb45c062782d380aa4bb560e2cb35db9cc309cf367ca3ac262c",
+  "models/recursive_reasoning/hrm.py": "eb9e27416b95de989a52bf766230c090506b60cca2517e452fdc7db5d95af459",
+  "models/recursive_reasoning/trm_singlez.py": "5f52e879b7b9fa84e52fc4b3100805f044132654a934d6b860fc5dc111dbda85",
+  "models/recursive_reasoning/trm_hier6.py": "a39e104baa45f9519b281e6aea10c70f1b8f2578af6657ed0aa0664fb8e1d4ca",
+  "models/recursive_reasoning/transformers_baseline.py": "b720059b622ffd55ddb68b7120ae8dc3738a2129819c149e989ee14b441c45f9",
+  "models/sparse_embedding.py": "9429742ce022918751331acf92c1a9b8d0f2f364e9acef5d71fb81b886c7a2d0",
+  "dataset/common.py": "be9d442d6a72a9351fda551ac1aeb05328512417faf6e8b7ed481915470f24d6",
+  "dataset/build_arc_dataset.py": "c6ccf29d2c0391f710a36b4b2ee8a1ea039e6624d64eb1a725d504f838440b09",
+  "dataset/build_sudoku_dataset.py": "9cd1c28c4b186d990b9d671f82e4697eac19ae63ac58c3c29a54c662f2da1ea4",
+  "config/arch/trm.yaml": "19c2722f5ea36c2d2b8eb193c8431b307add6c904fef70ac5c209ee2d5c4b526",
+  "config/cfg_pretrain.yaml": "df550ff32d5d6ef69ebf66a22e6bf6a87817d763f73312fa973e865e85aa2ba3"
+}
