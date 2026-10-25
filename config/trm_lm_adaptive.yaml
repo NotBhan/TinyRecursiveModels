@@ -1,0 +1,67 @@
+# Experiment configuration template for the dual-state adaptive TRM-LM.
+# This is a manifest/template; train_trm_lm_adaptive.py currently exposes the
+# same fields as CLI flags.  Do not launch a substantive run without separate
+# authorization.  The smoke configuration uses smaller values.
+
+experiment_id: dual_state_adaptive_candidate
+data:
+  workdir: experiments/trm_lm_pilot_5m/r1   # read-only manifest + tokenizer
+  seq_len: 256
+  max_train_docs: 40000
+  max_val_docs: 512
+  max_val_batches: null
+model:
+  vocab_size: 8000
+  hidden_size: 512
+  num_heads: 8
+  n_low_layers: 1
+  n_high_layers: 1
+  n_low_cycles: 1
+  n_high_cycles: 2
+  min_high_cycles: 1
+  max_high_cycles: 4
+  controller_hidden_size: 64
+  controller_dropout: 0.0
+  halt_threshold: 0.5
+  controller_detach_features: true
+  share_high_low_blocks: false
+  gradient_strategy: full          # full | truncated | last_high_cycle
+  tie_embeddings: true
+  pad_token_id: 0
+training:
+  mode: adaptive                   # fixed | adaptive
+  depth_sampling: uniform          # uniform | all | max
+  controller_loss_weight: 1.0
+  compute_penalty: 0.0
+  cost_threshold: 0.0
+  optimizer: AdamW
+  lr: 3.0e-4
+  weight_decay: 0.1
+  grad_clip: 1.0
+  batch_size: 4
+  dtype: bfloat16
+  device: cuda
+  seed: 1337
+  max_steps: 1                     # smoke/verification; substantive runs need approval
+  max_train_tokens: 100            # smoke budget; use documented experiment budget otherwise
+  save_every_tokens: null
+  val_every_tokens: null
+  scheduler: none
+  warmup_steps: 0
+inference:
+  generation_max_new_tokens: 8
+  generation_prompt_tokens: 4
+  budgeted_max_total_transitions: 8
+evaluation:
+  fixed_depths: [1, 2, 4]
+  report:
+    - validation_cross_entropy
+    - perplexity
+    - valid_target_tokens
+    - executed_transitions
+    - mean_and_percentile_transitions
+    - wall_clock_latency
+    - peak_memory
+    - halting_step_distribution
+    - seed_to_seed_variation
+  note: "No experiment in this template has been run beyond bounded smoke verification."

@@ -1,0 +1,77 @@
+{
+  "schema": "re_coding_adaptive_failure_analysis_v1",
+  "checkpoint": "experiments/re_coding_adaptive/backbone_3m/checkpoint_tokens_1000163.pt",
+  "checkpoint_sha256": "17ed8d1b212456e022f6ff1729e7857cb66f32ddf1daf6ff4723f40b5a486ca9",
+  "protocol": {
+    "benchmark": "MBPP full validation",
+    "tasks": 45,
+    "prompt": "problem + ### Solution: + helper/import context + exact def signature",
+    "target": "function body only",
+    "mode": "fixed depth 2",
+    "max_new_tokens": 96,
+    "context_cap": 256,
+    "decoding": "greedy",
+    "sandbox": "bubblewrap"
+  },
+  "aggregate": {
+    "pass_at_1": 0.0,
+    "first_test_pass_rate": 0.0,
+    "syntax_valid_rate": 0.35555555555555557,
+    "nonempty_rate": 0.9111111111111111,
+    "entry_point_present_rate": 0.35555555555555557,
+    "prompt_truncated_rate": 0.044444444444444446,
+    "mean_prompt_tokens": 55.68888888888889,
+    "mean_generated_tokens": 29.68888888888889,
+    "mean_transitions": 118.75555555555556,
+    "mean_token_entropy": 2.8469294242470715,
+    "mean_token_margin": 0.4264549841005975,
+    "error_counts": {
+      "syntax_error": 29,
+      "runtime_error": 7,
+      "assertion_error": 9
+    },
+    "syntax_valid_but_failed": 16,
+    "syntax_valid_and_passed": 0
+  },
+  "depth_sweep_multi_depth_checkpoint": {
+    "1": {"syntax_valid_rate": 0.756, "pass_at_1": 0.0, "first_test_pass_rate": 0.0, "runtime_errors": 24, "syntax_errors": 11, "assertion_errors": 10},
+    "2": {"syntax_valid_rate": 0.356, "pass_at_1": 0.0, "first_test_pass_rate": 0.044, "runtime_errors": 8, "syntax_errors": 29, "assertion_errors": 8},
+    "3": {"syntax_valid_rate": 0.311, "pass_at_1": 0.0, "first_test_pass_rate": 0.067, "runtime_errors": 6, "syntax_errors": 31, "assertion_errors": 8},
+    "4": {"syntax_valid_rate": 0.356, "pass_at_1": 0.0, "first_test_pass_rate": 0.044, "runtime_errors": 10, "syntax_errors": 29, "assertion_errors": 6}
+  },
+  "representative_failures": [
+    {
+      "task_id": 511,
+      "expected_name": "find_Min_Sum",
+      "error_type": "runtime_error",
+      "error_message": "NameError: name 'n' is not defined",
+      "generated_code": "def find_Min_Sum(num):\n    if (n == 0):\n        return (n - 1)\n    return (n - 1)",
+      "diagnosis": "Uses an undeclared variable n instead of the signature argument num; generic template ignores the problem."
+    },
+    {
+      "task_id": 515,
+      "expected_name": "modular_sum",
+      "error_type": "assertion_error",
+      "error_message": "AssertionError",
+      "generated_code": "def modular_sum(arr, n, m):\n    if (n == 0):\n        return False\n    return False",
+      "diagnosis": "Syntactically valid but returns a constant; no algorithmic mapping."
+    },
+    {
+      "task_id": 513,
+      "expected_name": "add_str",
+      "error_type": "assertion_error",
+      "error_message": "AssertionError",
+      "generated_code": "def add_str(test_tup, K):\n  res = tuple(test_tup)\n  return (res)",
+      "diagnosis": "Plausible Python, wrong semantics: returns a tuple instead of the alternating list required by the tests."
+    },
+    {
+      "task_id": 533,
+      "expected_name": "remove_datatype",
+      "error_type": "runtime_error",
+      "error_message": "NameError: name 'test_tup' is not defined. Did you mean: 'test_tuple'?",
+      "generated_code": "def remove_datatype(test_tuple, data_type):\n  res = tuple(test_tup)\n  return (res)",
+      "diagnosis": "Copies a memorized body fragment but not the signature argument name."
+    }
+  ],
+  "conclusion": "After the harness and tokenizer fixes, syntax validity is no longer the limiting factor. The remaining failure is semantic: the model emits a small set of generic templates and does not bind signature arguments or implement the problem. This requires more diverse instruction data or more model capacity, not another recurrence-only change."
+}

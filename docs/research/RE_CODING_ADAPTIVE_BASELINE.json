@@ -1,0 +1,128 @@
+{
+  "schema": "re_coding_adaptive_baseline_v1",
+  "date": "2026-10-22",
+  "repository": "/home/chandrabhan/Documents/Chandrabhan/TinyRecursiveModels",
+  "branch": "re-coding-adaptive",
+  "base_commit": "2cffb3c232b9e8bc79c7613a117566e834908bb4",
+  "seed": 1337,
+  "environment": {
+    "os": "CachyOS Linux 7.2.8-1-cachyos x86_64",
+    "python": "3.14.7",
+    "torch": "2.14.0",
+    "hip": "7.2.53211",
+    "cuda_api_available": true,
+    "gpu": "AMD Radeon RX 6600M",
+    "gpu_arch": "gfx1032",
+    "gpu_vram_gb": 8.57,
+    "hsa_override_gfx_version": "10.3.0",
+    "sandbox": "bubblewrap 0.13.0"
+  },
+  "dataset": {
+    "tinystories_parquet": "/home/chandrabhan/.cache/huggingface/hub/datasets--karpathy--tinystories-gpt4-clean/snapshots/0397e27157956705a0260709da3095bb9c43d6a7/tinystories_gpt4_clean.parquet",
+    "tinystories_sha256": "8bacd849e57784e06ebaaab3ef7b01077ca2d9d27ce7d95f2fbe465f1483548b",
+    "mbpp_dir": "data/coding/mbpp",
+    "mbpp_revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+    "mbpp_license": "cc-by-4.0"
+  },
+  "baseline_checkpoint": {
+    "path": "experiments/trm_lm_coding_reasoning/pilot_500k/checkpoint_final.pt",
+    "sha256": "851b723da7b377b746078c6489371b3944ffa7cd1f9a20d1a13f2d99f1025baf",
+    "tokens_processed": 500000,
+    "steps": 1045,
+    "parameters": 11501825,
+    "tokenizer": "experiments/trm_lm_pilot_5m/r1/tokenizer.json",
+    "tokenizer_sha256": "7497806734d3e5849028d5184e29c2d7ba18202e097718518e751bede5c2f682"
+  },
+  "baseline_results": {
+    "validation": {
+      "tasks": 43,
+      "thinking_off": {"pass_at_1": 0.0, "syntax_valid_rate": 0.0, "syntax_errors": 23, "runtime_errors": 20},
+      "thinking_on": {"pass_at_1": 0.0, "syntax_valid_rate": 0.0, "syntax_errors": 43, "runtime_errors": 0}
+    },
+    "test": {
+      "tasks": 43,
+      "thinking_off": {"pass_at_1": 0.0, "syntax_valid_rate": 0.0, "syntax_errors": 27, "runtime_errors": 16},
+      "thinking_on": {"pass_at_1": 0.0, "syntax_valid_rate": 0.0, "syntax_errors": 43, "runtime_errors": 0}
+    },
+    "realized_training_tokens": {
+      "lang_continuation": 428154,
+      "code_continuation": 22014,
+      "func_synthesis": 38716,
+      "output_prediction": 11202,
+      "total_coding": 71932,
+      "coding_share": 0.1439
+    }
+  },
+  "corrected_harness_baseline": {
+    "description": "Old checkpoint, signature prompt, indentation-preserving extraction, full-code reconstruction",
+    "validation_tasks": 45,
+    "pass_at_1": 0.0,
+    "syntax_valid_rate": 0.0,
+    "error_counts": {"syntax_error": 45},
+    "conclusion": "Harness correction alone does not help an undertrained model."
+  },
+  "measured_defects": {
+    "function_name_coverage": {"tasks_with_def": 500, "name_in_problem_text": 21, "coverage": 0.042},
+    "tokenizer_chars_per_token_code": {"old_tinystories_bpe": 1.582, "new_code_aware_bpe": 2.420},
+    "func_synthesis_truncation": {"examples": 371, "truncated_at_256": 48, "rate": 0.1294},
+    "old_prompt_tokens_validation": {"mean": 42.2, "p95": 54, "max": 60}
+  },
+  "supplemental_runs": {
+    "backbone_500k_seed1337_fixed_depth_2": {"syntax_valid_rate": 0.489, "pass_at_1": 0.0, "tasks": 45},
+    "backbone_500k_seed2025_fixed_depth_2": {"syntax_valid_rate": 0.400, "pass_at_1": 0.0, "tasks": 45},
+    "backbone_1m_fixed_depth_2": {"syntax_valid_rate": 0.356, "pass_at_1": 0.0, "tasks": 45},
+    "backbone_3m_fixed_depth_2": {"syntax_valid_rate": 0.289, "pass_at_1": 0.0, "tasks": 45},
+    "multidepth_depth_1": {"syntax_valid_rate": 0.756, "pass_at_1": 0.0, "tasks": 45},
+    "multidepth_depth_2": {"syntax_valid_rate": 0.356, "pass_at_1": 0.0, "tasks": 45},
+    "multidepth_depth_3": {"syntax_valid_rate": 0.311, "pass_at_1": 0.0, "tasks": 45},
+    "multidepth_depth_4": {"syntax_valid_rate": 0.356, "pass_at_1": 0.0, "tasks": 45},
+    "multidepth_syntax_repair": {"syntax_valid_rate": 0.822, "pass_at_1": 0.0, "mean_attempts": 1.667, "tasks": 45},
+    "stdlib_depth_1": {"syntax_valid_rate": 0.778, "pass_at_1": 0.0, "tasks": 45},
+    "stdlib_syntax_repair": {"syntax_valid_rate": 0.844, "pass_at_1": 0.0, "mean_attempts": 1.622, "tasks": 45},
+    "stdlib_test100_depth_1": {"syntax_valid_rate": 0.870, "pass_at_1": 0.0, "tasks": 100},
+    "stdlib_test100_fixed_max_4": {"syntax_valid_rate": 0.470, "pass_at_1": 0.0, "first_test_pass_rate": 0.030, "tasks": 100},
+    "stdlib_test100_syntax_repair": {"syntax_valid_rate": 0.950, "pass_at_1": 0.0, "mean_transitions": 97.0, "tasks": 100},
+    "old_tokenizer_500k_fixed_depth_2": {"syntax_valid_rate": 0.000, "pass_at_1": 0.0, "tasks": 45}
+  },
+  "vram": {
+    "weights_mb": 23.2,
+    "peak_allocated_mb_depth_1": 67.1,
+    "peak_allocated_mb_depth_2": 67.1,
+    "peak_allocated_mb_depth_4": 67.1,
+    "peak_reserved_mb": 86.0,
+    "working_mb_range": [36.3, 39.7],
+    "last_token_only_logits_saving_mb": 2.24,
+    "smaller_context_cap_saving_mb": 0.37,
+    "tiered_controller_peak_mb": 65.4,
+    "tiered_controller_saving_percent": 2.5
+  },
+  "new_checkpoints": {
+    "backbone_500k": {"path": "experiments/re_coding_adaptive/backbone_3m/checkpoint_tokens_500091.pt", "sha256": "00fb66a04b642195fc4f8cb2b1d1b21a2ab1863b7d133529c31ece6dabb22536"},
+    "backbone_500k_seed2025": {"path": "experiments/re_coding_adaptive/backbone_500k_seed2025/checkpoint_final.pt"},
+    "old_tokenizer_500k": {"path": "experiments/re_coding_adaptive/ablation_old_tokenizer_500k/checkpoint_final.pt"},
+    "backbone_1m": {"path": "experiments/re_coding_adaptive/backbone_3m/checkpoint_tokens_1000163.pt", "sha256": "17ed8d1b212456e022f6ff1729e7857cb66f32ddf1daf6ff4723f40b5a486ca9"},
+    "multidepth_1m": {"path": "experiments/re_coding_adaptive/multidepth_1m_from_1m/checkpoint_final.pt", "sha256": "96ab644797938206299cc5f7b239f16625fbe6231b2ebe251241a7a1eecf1685"},
+    "stdlib_instr_1m": {"path": "experiments/re_coding_adaptive/stdlib_instr_1m/checkpoint_final.pt", "sha256": "5c0541c70c5e7e91806414c680144a60fc6bcc7646e13f2505af0171d4b590e5"},
+    "code_aware_tokenizer": {"path": "experiments/re_coding_adaptive/tokenizer/tokenizer.json", "sha256": "bd441ae120b5b7f26ab3a96975c41809dacf33c65e315b9aaed381f0f23620a8"}
+  },
+  "commands": {
+    "tokenizer": "PYTHONPATH=. .venv-trm-lm/bin/python -m dataset.build_code_tokenizer --workdir experiments/re_coding_adaptive/tokenizer --tinystories-workdir experiments/trm_lm_pilot_5m/r1 --vocab-size 8192 --story-docs 4000 --code-bytes 8000000 --max-code-files 4000 --force",
+    "backbone": "HSA_OVERRIDE_GFX_VERSION=10.3.0 PYTHONPATH=. .venv-trm-lm/bin/python train_re_coding.py --stage backbone --workdir experiments/re_coding_adaptive/backbone_3m --tokenizer-workdir experiments/re_coding_adaptive/tokenizer --max-train-tokens 3000000 --fixed-depth 2 --batch-size 4 --seq-len 256 --lr 3e-4 --warmup-steps 200 --save-every-tokens 500000 --val-every-tokens 500000 --skip-code-eval",
+    "multidepth": "HSA_OVERRIDE_GFX_VERSION=10.3.0 PYTHONPATH=. .venv-trm-lm/bin/python train_re_coding.py --stage controller --workdir experiments/re_coding_adaptive/multidepth_1m_from_1m --tokenizer-workdir experiments/re_coding_adaptive/tokenizer --init-checkpoint experiments/re_coding_adaptive/backbone_3m/checkpoint_tokens_1000163.pt --max-train-tokens 1000000 --max-high-cycles 4 --depth-sampling uniform --controller-loss-weight 0.25 --lr 1e-4 --warmup-steps 100 --save-every-tokens 250000 --val-every-tokens 250000 --skip-code-eval",
+    "stdlib": "HSA_OVERRIDE_GFX_VERSION=10.3.0 PYTHONPATH=. .venv-trm-lm/bin/python train_re_coding.py --stage controller --workdir experiments/re_coding_adaptive/stdlib_instr_1m --tokenizer-workdir experiments/re_coding_adaptive/tokenizer --init-checkpoint experiments/re_coding_adaptive/multidepth_1m_from_1m/checkpoint_final.pt --max-train-tokens 1000000 --max-high-cycles 4 --depth-sampling uniform --controller-loss-weight 0.25 --lr 1e-4 --warmup-steps 100 --code-lm-weight 0.30 --instruction-weight 0.25 --stdlib-instruction-weight 0.35 --lang-weight 0.10 --save-every-tokens 250000 --val-every-tokens 250000 --skip-code-eval",
+    "evaluation": "HSA_OVERRIDE_GFX_VERSION=10.3.0 PYTHONPATH=. .venv-trm-lm/bin/python -m evaluators.run_re_experiments --checkpoint experiments/re_coding_adaptive/stdlib_instr_1m/checkpoint_final.pt --tokenizer-workdir experiments/re_coding_adaptive/tokenizer --workdir experiments/re_coding_adaptive/eval_stdlib_instr_1m_test100 --split test --limit 100 --max-new-tokens 96 --modes fast,fixedmax,repair --memory-easy-hard 3 --sandbox-python /usr/bin/python3.14",
+    "tests": "TRM_LM_TEST_GPU=1 TRM_LM_ADAPTIVE_TEST_GPU=1 HSA_OVERRIDE_GFX_VERSION=10.3.0 PYTHONPATH=. .venv-trm-lm/bin/pytest tests/ -q -p no:warnings"
+  },
+  "artifacts": {
+    "baseline_report": "docs/research/RE_CODING_ADAPTIVE_BASELINE.md",
+    "final_report": "docs/research/RE_CODING_ADAPTIVE_FINAL_REPORT.md",
+    "eval_1m": "experiments/re_coding_adaptive/eval_backbone_1m/results.json",
+    "eval_3m": "experiments/re_coding_adaptive/eval_backbone_3m/results.json",
+    "eval_500k": "experiments/re_coding_adaptive/eval_backbone_500k/results.json",
+    "eval_multidepth": "experiments/re_coding_adaptive/eval_multidepth_1m/results.json",
+    "eval_multidepth_repair": "experiments/re_coding_adaptive/eval_multidepth_1m_repair/results.json",
+    "eval_stdlib": "experiments/re_coding_adaptive/eval_stdlib_instr_1m/results.json",
+    "eval_test100": "experiments/re_coding_adaptive/eval_stdlib_instr_1m_test100/results.json",
+    "eval_old_tokenizer_ablation": "experiments/re_coding_adaptive/eval_ablation_old_tokenizer_500k/results.json"
+  }
+}

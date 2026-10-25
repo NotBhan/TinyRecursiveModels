@@ -1,0 +1,86 @@
+# Experiment configuration: Language Modeling vs Deliberate Coding Reasoning
+# Repository: TinyRecursiveModels / RE:Inference
+# Model: Dual-state recursive causal LM (TRM-LM Adaptive)
+
+experiment_id: trm_lm_coding_reasoning_pilot
+data:
+  tinystories_workdir: experiments/trm_lm_pilot_5m/r1
+  mbpp_dir: data/coding/mbpp
+  mbpp_config: full
+  seq_len: 256
+  # Proposed 60/40 training mixture
+  mixture:
+    lang_weight: 0.60
+    code_continuation_weight: 0.10
+    func_synthesis_weight: 0.20
+    output_prediction_weight: 0.10
+  max_train_docs: 40000
+  max_val_docs: 512
+  max_val_batches: null
+
+model:
+  vocab_size: 8000
+  hidden_size: 512
+  num_heads: 8
+  n_low_layers: 1
+  n_high_layers: 1
+  n_low_cycles: 1
+  n_high_cycles: 2
+  min_high_cycles: 1
+  max_high_cycles: 4
+  controller_hidden_size: 64
+  controller_dropout: 0.0
+  halt_threshold: 0.5
+  controller_detach_features: true
+  share_high_low_blocks: false
+  gradient_strategy: full          # full | truncated | last_high_cycle
+  tie_embeddings: true
+  pad_token_id: 0
+
+training:
+  mode: adaptive                   # fixed | adaptive
+  depth_sampling: uniform          # uniform | all | max
+  controller_loss_weight: 1.0
+  compute_penalty: 0.0
+  cost_threshold: 0.0
+  survivor_aware_controller: true  # Resolves training/deployment mismatch by weighting controller loss by survival probability
+  optimizer: AdamW
+  lr: 3.0e-4
+  weight_decay: 0.1
+  grad_clip: 1.0
+  batch_size: 4
+  dtype: bfloat16
+  device: cuda
+  seed: 1337
+  max_steps: 1                     # smoke/preflight budget; substantive runs require authorization
+  max_train_tokens: 100            # smoke/preflight budget; proposed 500k bounded pilot
+  save_every_tokens: null
+  val_every_tokens: null
+  scheduler: none
+  warmup_steps: 0
+
+inference:
+  # Thinking OFF definition
+  thinking_off:
+    mode: fast
+    high_cycles: 1
+    description: "Direct next-token generation with minimum recursion depth (1 high cycle, 2 total block transitions)."
+  # Thinking ON definition
+  thinking_on:
+    mode: adaptive
+    min_high_cycles: 1
+    max_high_cycles: 4
+    halt_threshold: 0.5
+    description: "Deliberate latent computation permitting 1 to 4 high cycles (2 to 8 transitions) via learned per-position controller."
+
+evaluation:
+  language_modeling:
+    split: val
+    dataset: tinystories
+    metrics: [cross_entropy, perplexity, valid_tokens]
+  coding:
+    split: validation
+    dataset: mbpp
+    metrics: [pass_at_1, syntax_valid_rate, mean_latency_ms, mean_transitions, error_categories]
+    sandbox_timeout_sec: 3.0
+    sandbox_max_memory_mb: 512
